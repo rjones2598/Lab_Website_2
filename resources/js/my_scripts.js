@@ -33,6 +33,19 @@ var players = [{name:"John Doe", img: "../resources/img/player1.jpg", alt:"Image
 					 To reveal the html tag (toggle - 1), the visibility will be set to visible and
 					 the height will be set to auto.
 */
+
+function viewStudentStats(id, toggle)
+{
+	var el=document.getElementById(id);
+
+	if (toggle){
+		el.style.visibility="visible";
+		el.style.height="auto";
+	}else{
+		el.style.visibility="hidden";
+		el.style.height="0px";
+	}
+}
 				
 /*
 	Home Page: 
@@ -44,6 +57,10 @@ var players = [{name:"John Doe", img: "../resources/img/player1.jpg", alt:"Image
 					 provided parameter.
 */
 
+function changeColor(color)
+{
+	document.body.style.backgroundColor = color;
+}
 
 /*
 	Football Season Stats Page:
@@ -61,6 +78,26 @@ var players = [{name:"John Doe", img: "../resources/img/player1.jpg", alt:"Image
 						
 						4. Update the second table to show the total number of wins/losses for the Buffs.
 */
+function loadStatsPage()
+{
+	var tbl = document.getElementById("stats_table");
+	var winTbl = document.getElementById("Wins-Table");
+
+	var nRows = tbl.rows.length;
+	var i;
+
+	for (i = 2; i < nRows; i++) {
+		if (tbl.rows[i].cells[2].innerHTML > tbl.rows[i].cells[3].innerHTML){
+			tbl.rows[i].cells[4].innerHTML = "CU Boulder";
+
+			winTbl.rows[1].cells[0].innerHTML++;
+		}else{
+			tbl.rows[i].cells[4].innerHTML = tbl.rows[i].cells[1].innerHTML;
+
+			winTbl.rows[1].cells[1].innerHTML++;
+		}
+	}
+}
 
 /*
 	Football Player Information Page
@@ -106,3 +143,38 @@ var players = [{name:"John Doe", img: "../resources/img/player1.jpg", alt:"Image
 */
 				
 
+// var players = [{name:"John Doe", img: "../resources/img/player1.jpg", alt:"Image of Player 1", year:"Sophomore", major:"Art", games_played: 23, pass_yards: 435, rushing_yards: 200, receiving_yards: 88},
+// 				{name:"James Smith", img: "../resources/img/player2.jpg", alt:"Image of Player 2", year:"Junior", major:"Science", games_played: 17, pass_yards: 192, rushing_yards: 102, receiving_yards: 344},
+// 				{name:"Samuel Phillips", img: "../resources/img/player3.jpg", alt:"Image of Player 3", year:"Freshman", major:"Math", games_played: 8, pass_yards: 35, rushing_yards: 70, receiving_yards: 98},
+// 				{name:"Robert Myers", img: "../resources/img/player4.jpg", alt:"Image of Player 4", year:"Senior", major:"Computer Science", games_played: 31, pass_yards: 802, rushing_yards: 375, receiving_yards: 128}];
+
+function switchPlayers(playerNum)
+{
+	document.getElementById('p_year').innerHTML = players[playerNum].year;
+	document.getElementById('p_major').innerHTML = players[playerNum].major;
+	document.getElementById('g_played').innerHTML = players[playerNum].games_played;
+	document.getElementById('player_img').src = players[playerNum].img;
+	document.getElementById('player_img').alt = "Placeholder for photo of "+players[playerNum].name;
+	document.getElementById('p_yards').innerHTML = players[playerNum].pass_yards;
+	document.getElementById('avg_p_yards').innerHTML = (players[playerNum].pass_yards)/(players[playerNum].games_played);
+	document.getElementById('r_yards').innerHTML = players[playerNum].rushing_yards;
+	document.getElementById('avg_r_yards').innerHTML = (players[playerNum].rushing_yards)/(players[playerNum].games_played);
+	document.getElementById('rec_yards').innerHTML = players[playerNum].receiving_yards;
+	document.getElementById('avg_rec_yards').innerHTML = (players[playerNum].receiving_yards)/(players[playerNum].games_played);
+}
+
+
+function loadPlayersPage()
+{	
+	var div = document.getElementById("player_selector");
+	var L = players.length;
+	var i;
+
+	for(i = 0; i < L; i++){
+		if(i != 0){
+			div.innerHTML+="<hr>";
+		}
+
+		div.innerHTML+='<a href="#" onclick=switchPlayers('+i+')>'+players[i].name+'</a>';
+	}
+}
